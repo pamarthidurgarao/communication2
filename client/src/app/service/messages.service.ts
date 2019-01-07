@@ -8,30 +8,15 @@ import { ChatMessages } from '../model/chat-messages';
 })
 export class MessagesService {
   public messages: Array<ChatMessages> = [];
-  constructor(private http: HttpClient) { 
-    this.messages = [];
-    let message = new ChatMessages;
-    message.id = 1;
-    message.fromId = 1
-    message.toId = 2
-    message.message = 'Test which is a new approach to have all solutionsTest which is a new approach to have all solutionsTest which is a new approach to have all solutionsTest which is a new approach to have all solutions';
-    message.sentDate = '2008-11-11 13:23:44';
-    this.messages.push(message);
-    let message1 = new ChatMessages;
-    message1.id = 2;
-    message1.fromId = 2
-    message1.toId = 1
-    message1.message = 'Test which is a new approach to have all solutions';
-    message1.sentDate = '2008-11-11 13:23:44';
-    this.messages.push(message1);
+  public baseUrl: string = '/api/v1/message';
+  constructor(private http: HttpClient) {
   }
 
-  getMessages(): Observable<ChatMessages[]> {
-    return of(this.messages);
+  getMessages(fromId: number, toId: number): Observable<ChatMessages[]> {
+    return this.http.get<ChatMessages[]>(this.baseUrl + '/find/fromId/' + fromId + '/toId/' + toId)
   }
 
-  sendMessage(message: ChatMessages): Observable<ChatMessages[]> {
-    this.messages.push(message)
-    return of(this.messages);
+  sendMessage(message: ChatMessages): Observable<ChatMessages> {
+    return this.http.post<ChatMessages>(this.baseUrl, message);
   }
 }

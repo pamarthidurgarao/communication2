@@ -1,27 +1,39 @@
 <app-header></app-header>
 
 <div class="d-flex flex-row">
-  <div class="list-group col-sm-2 cantactList" [style.height.px]="innerHeight">
-      <div class="chat_list" *ngFor="let message of resentMessages">
-          <div class="chat_people">
-            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            <div class="chat_ib">
-              <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-              <p>{{message.message | limitTo: 20 }}</p>
-            </div>
+  <div class="list-group col-sm-2 sideRecent" [style.height.px]="innerHeight">
+    <div class="search_contact">
+      <input placeholder="Search" #searchBy aria-label="State" [matAutocomplete]="auto" (keyup)="filter($event)">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="autoSelect($event)">
+        <mat-option *ngFor="let user of users" [value]="user">
+          <span>{{user.firstName}} {{user.lastName}}</span> |
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+    <div class="cantactList">
+      <div class="chat_list" *ngFor="let user of resentUsers">
+        <div class="chat_people">
+          <div class="chat_img">
+            <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+          <div class="chat_ib">
+            <h5>{{user.firstName}} {{user.lastName}}
+              <span class="chat_date">Dec 25</span>
+            </h5>
           </div>
         </div>
+      </div>
+    </div>
   </div>
   <div class="col-sm-10 chatArea">
     <div class="conversation" [style.height.px]="innerHeight-80">
       <div *ngFor="let message of messages">
-        <div class="outgoing_msg" *ngIf="message.fromId==userId">
+        <div class="outgoing_msg" *ngIf="message.fromId==user.id">
           <div class="sent_msg">
             <p>{{message.message}}</p>
             <span class="time_date">{{message.sentDate | date:'medium' }}</span>
           </div>
         </div>
-        <div class="incoming_msg" *ngIf="message.fromId!=userId">
+        <div class="incoming_msg" *ngIf="message.fromId!=user.id">
           <div class="incoming_msg_img">
             <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
           <div class="received_msg">
@@ -35,7 +47,7 @@
 
     </div>
     <div class="p-2 d-flex flex-row">
-      <input type="text" [(ngModel)]="preparedMsg" style="width: 100%" >
+      <input type="text" [(ngModel)]="preparedMsg" style="width: 100%">
       <!-- <textarea class="form-control" id="exampleFormControlTextarea1" [(ngModel)]="preparedMsg" rows="2" (change)="preparedMsgChange($event)"></textarea> -->
       <button type="button" class="btn btn-outline-dark" (click)="sendMessage()">
         <mat-icon>send</mat-icon>

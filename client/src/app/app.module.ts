@@ -7,14 +7,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeModule } from './home/home.module';
 import { AppRoutingModule } from './app.routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RegisterationComponent } from './registeration/registeration.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
+    RegisterationComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
     HomeModule,

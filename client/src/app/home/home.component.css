@@ -4,9 +4,12 @@
 }
 .cantactList{
     padding-right: 0px;
-    border-right: 1px solid #e0e0e0;
     bottom: 0px;
     overflow-y: auto;
+}
+.sideRecent{
+  border-right: 1px solid #e0e0e0;
+  padding-right: 0px;
 }
 .conversation{
     overflow-y: auto;
@@ -90,3 +93,11 @@
 
 .active_chat{ background:#ebebeb;}
 
+.search_contact{
+  padding: 20px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.chatArea{
+  padding-right: 0px;
+}

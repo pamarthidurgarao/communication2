@@ -1,6 +1,10 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { ChatMessages } from '../model/chat-messages';
 import { MessagesService } from '../service/messages.service';
+import { AuthService } from '../service/auth.service';
+import { User } from '../model/user';
+import { UserService } from '../service/user.service';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
   selector: 'app-home',
@@ -8,16 +12,20 @@ import { MessagesService } from '../service/messages.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  constructor(private messagesService: MessagesService) { }
+  constructor(private messagesService: MessagesService, private authService: AuthService, private userService: UserService) { }
   public innerHeight: any;
   public messages: Array<ChatMessages> = [];
   public resentMessages: Array<ChatMessages> = [];
-  public userId = 1;
+  public user: User;
+  public toUser: User;
+  public users: User[];
+  public resentUsers: User[] = [];
   public preparedMsg = '';
+  @ViewChild('searchBy') el:ElementRef;
   ngOnInit() {
     this.innerHeight = window.innerHeight - 56;
-    this.loadChatChatMessages();
-    this.loadChatContacts();
+    this.loadLoggedUser();
+    this.loadChatChatMessages(2);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -25,9 +33,8 @@ export class HomeComponent implements OnInit {
     this.innerHeight = window.innerHeight - 56;
   }
 
-  loadChatChatMessages() {
-
-    this.messagesService.getMessages().subscribe(res => {
+  loadChatChatMessages(toId) {
+    this.messagesService.getMessages(this.user.id, toId).subscribe(res => {
       this.messages = [];
       this.messages = res;
       this.resentMessages = res;
@@ -37,13 +44,13 @@ export class HomeComponent implements OnInit {
   sendMessage() {
     debugger
     let message = new ChatMessages;
-    message.id = 2;
-    message.fromId = this.userId;
-    message.toId = 1
+    message.fromId = this.user.id;
+    message.toId = this.toUser.id;
     message.message = this.preparedMsg;
-    message.sentDate = new Date().toDateString();
-    this.messagesService.sendMessage(message);
-    this.loadChatChatMessages();
+    message.sentDate = new Date().toISOString();
+    this.messagesService.sendMessage(message).subscribe(res => {
+      this.loadChatChatMessages(this.toUser.id);
+    });;
     this.preparedMsg = '';
   }
 
@@ -51,6 +58,20 @@ export class HomeComponent implements OnInit {
     this.preparedMsg = event.target.value;
   }
 
-  loadChatContacts() {
+  loadLoggedUser() {
+    this.user = this.authService.getLoggedUser();
+  }
+
+  filter(event) {
+    this.userService.filter(event.target.value).subscribe(resp => {
+      this.users = resp;
+    });
+  }
+
+  autoSelect(user: MatAutocompleteSelectedEvent) {
+    this.resentUsers.push(user.option.value);
+    this.toUser = user.option.value;
+    this.loadChatChatMessages(this.toUser.id);
+    this.el.nativeElement.value='';
   }
 }
