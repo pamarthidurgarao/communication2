@@ -16,5 +16,8 @@ public interface MessageDao extends CrudRepository<Message, Long> {
 	
 	@Query("SELECT U FROM Message U WHERE U.toId=?1 OR U.fromId=?1")
 	List<Message> find(Long Id);
+	
+	@Query("SELECT DISTINCT p.toId FROM Message p WHERE p.fromId = ?1") 
+	List<Message> findNonReferencedNames(Long id); 
 
 }

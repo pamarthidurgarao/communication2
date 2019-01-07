@@ -57,7 +57,7 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	public List<Message> find(Long Id) {
-		return dao.find(Id);
-	}
+		return dao.findNonReferencedNames(Id);
+	} 
 
 }

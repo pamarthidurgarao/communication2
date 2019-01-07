@@ -7,9 +7,11 @@ import { RegisterationComponent } from './registeration/registeration.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'chat', component: ChatboxComponent },
+  {
+    path: 'home',
+    loadChildren: './home/home.module#HomeModule',
+  },
   { path: 'registration', component: RegisterationComponent },
 
 ];

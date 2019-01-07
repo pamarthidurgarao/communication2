@@ -9,6 +9,7 @@ import { TruncatePipe } from '../pipes/truncate.pipe';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
+import { HomeRoutingModule } from './home.routing.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { MatInputModule } from '@angular/material';
     MatIconModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    HomeRoutingModule
   ],
   declarations: [HomeComponent, HeaderComponent, ChatboxComponent, TruncatePipe]
 })

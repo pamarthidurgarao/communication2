@@ -16,4 +16,8 @@ export class UserService {
   filter(match: string): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl + '/find?match=' + match);
   }
+
+  get(id: number): Observable<User> {
+    return this.http.get<User>(this.baseUrl + '/id/' + id);
+  }
 }

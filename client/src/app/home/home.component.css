@@ -11,14 +11,12 @@
   border-right: 1px solid #e0e0e0;
   padding-right: 0px;
 }
-.conversation{
-    overflow-y: auto;
-}
 .row.chatPanel.navbar-fixed-bottom {
-    position: fixed;
-    bottom: 5px;
+  position: fixed;
+  bottom: 5px;
 }
 .conversation{
+  overflow-y: auto;
     border-bottom: 1px solid #e0e0e0;   
 }
 

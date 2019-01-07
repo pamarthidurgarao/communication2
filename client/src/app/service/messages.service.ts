@@ -16,6 +16,10 @@ export class MessagesService {
     return this.http.get<ChatMessages[]>(this.baseUrl + '/find/fromId/' + fromId + '/toId/' + toId)
   }
 
+  getResent(fromId: number): Observable<number[]> {
+    return this.http.get<number[]>(this.baseUrl + '/find?id=' + fromId );
+  }
+
   sendMessage(message: ChatMessages): Observable<ChatMessages> {
     return this.http.post<ChatMessages>(this.baseUrl, message);
   }

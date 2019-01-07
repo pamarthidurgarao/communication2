@@ -32,6 +32,10 @@ public class UserController {
 		return userService.getByEmail(email);
 	}
 	
+	@GetMapping("id/{id}")
+	public User getById(@PathVariable Long id) {
+		return userService.get(id);
+	}
 	@GetMapping("find")
 	public List<User> find(@RequestParam String match) {
 		return userService.find(match);
